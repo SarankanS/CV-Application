@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
+import "../styles/form.css"
 
-function GeneralInfo({data, onSubmit}){
+function GeneralInfo({ data, onSubmit }) {
     const [editMode, setEditMode] = useState(false);
-    const [formData, setFormData] = useState({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        address: data.address,
-    })
-    function handleChange(e){
-        const {name, value} = e.target;
+    const [formData, setFormData] = useState(data);
+
+    function handleChange(e) {
+        const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData, 
-            [name]:value,
-        })) 
+            [name]: value,
+        })); 
     }
-    function handleSubmit(e){
+
+    function handleSubmit(e) {
         e.preventDefault();
         onSubmit(formData);
         setEditMode(false);
     }
 
-    function handleEdit(){
-        setEditMode(true);
-    }
-
     return (
-        <div className="general-info">
+        <div className="general-info form-info">
+          <h2>Personal Details</h2>
           {editMode ? (
             <form onSubmit={handleSubmit}>
+              <label for="name">Name: </label>
               <input
                 type="text"
                 name="name"
@@ -36,6 +32,7 @@ function GeneralInfo({data, onSubmit}){
                 onChange={handleChange}
                 required
               />
+              <label for="email">Email: </label>
               <input
                 type="email"
                 name="email"
@@ -43,6 +40,7 @@ function GeneralInfo({data, onSubmit}){
                 onChange={handleChange}
                 required
               />
+              <label for="phone">Phone Number: </label>
               <input
                 type="tel"
                 name="phone"
@@ -50,6 +48,7 @@ function GeneralInfo({data, onSubmit}){
                 onChange={handleChange}
                 required
               />
+              <label for="addresss">Address: </label>
               <input
                 type="text"
                 name="address"
@@ -60,19 +59,10 @@ function GeneralInfo({data, onSubmit}){
               <button type="submit">Submit</button>
             </form>
           ) : (
-            <div>
-                <h2>Personal Details</h2>
-                <p>Name: {data.name}</p>
-                <p>Email: {data.email}</p>
-                <p>Phone: {data.phone}</p>
-                <p>Address: {data.address}</p>
-                <button onClick={handleEdit}>Edit</button>
-            </div>
+            <button onClick={() => setEditMode(true)}>Edit Personal Details</button>
           )}
         </div>
-      );
+    );
 }
 
-
 export default GeneralInfo;
-
